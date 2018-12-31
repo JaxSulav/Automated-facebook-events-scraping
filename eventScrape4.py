@@ -33,7 +33,7 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
         browser = webdriver.Firefox(executable_path=geckodriver, options=options)
         try:
 
-            s1 = queue[i]
+            s1 = queue[0]
             print("loop no: " + str(i))
 
             if s1 not in visited:  # if current link is not already visited
@@ -51,26 +51,55 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
                 e_people = browser.find_element_by_class_name('_5z74').text
                 e_location = browser.find_element_by_xpath(
                     '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div[3]/div/div/div[2]/div/ul/li[2]/div[1]/table/tbody/tr/td[2]/div/div[1]/div/div[2]/div').text
-                link_webobject = browser.find_element_by_xpath(
-                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a')
-                # xpath(//*[@id="u_0_2x"]/a) didn't work. Also id kept changing in certain pages
 
-                link_append = link_webobject.get_attribute('href')[0:48]
-                link_webobject1 = browser.find_element_by_xpath(
-                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[1]/a')
-                link_append1 = link_webobject1.get_attribute('href')[0:48]
-                link_webobject2 = browser.find_element_by_xpath(
-                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[3]/div/div[2]/div/div[2]/div[1]/a')
-                link_append2 = link_webobject2.get_attribute('href')[0:48]
-                link_webobject3 = browser.find_element_by_xpath(
-                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[4]/div/div[2]/div/div[2]/div[1]/a')
-                link_append3 = link_webobject3.get_attribute('href')[0:48]
-                link_webobject4 = browser.find_element_by_xpath(
-                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[5]/div/div[2]/div/div[2]/div[1]/a')
-                link_append4 = link_webobject4.get_attribute('href')[0:48]
-                link_webobject5 = browser.find_element_by_xpath(
-                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[6]/div/div[2]/div/div[2]/div[1]/a')
-                link_append5 = link_webobject5.get_attribute('href')[0:48]
+                try:
+                    link_webobject = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a')
+                    # xpath(//*[@id="u_0_2x"]/a) didn't work. Also id kept changing in certain pages
+                    link_append = link_webobject.get_attribute('href')[0:48]
+                    queue.append(link_append)
+                except:
+                    pass
+
+                try:
+                    link_webobject1 = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[1]/a')
+                    link_append1 = link_webobject1.get_attribute('href')[0:48]
+                    queue.append(link_append1)
+                except:
+                    pass
+
+                try:
+                    link_webobject2 = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[3]/div/div[2]/div/div[2]/div[1]/a')
+                    link_append2 = link_webobject2.get_attribute('href')[0:48]
+                    queue.append(link_append2)
+                except:
+                    pass
+
+                try:
+                    link_webobject3 = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[4]/div/div[2]/div/div[2]/div[1]/a')
+                    link_append3 = link_webobject3.get_attribute('href')[0:48]
+                    queue.append(link_append3)
+                except:
+                    pass
+
+                try:
+                    link_webobject4 = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[5]/div/div[2]/div/div[2]/div[1]/a')
+                    link_append4 = link_webobject4.get_attribute('href')[0:48]
+                    queue.append(link_append4)
+                except:
+                    pass
+
+                try:
+                    link_webobject5 = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[1]/div/div/div[1]/div/div[4]/div/div[2]/div[6]/div/div[2]/div/div[2]/div[1]/a')
+                    link_append5 = link_webobject5.get_attribute('href')[0:48]
+                    queue.append(link_append5)
+                except:
+                    pass
 
                 # using beautifulsoup and requests
 
@@ -103,23 +132,20 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
 
                 visited.append(s1)
 
-                queue.append(link_append)
-                queue.append(link_append1)
-                queue.append(link_append2)
-                queue.append(link_append3)
-                queue.append(link_append4)
-                queue.append(link_append5)
-
                 browser.quit()
+                del queue[0]
                 print("...Done")
-                print("crawled: " + str(len(visited)) + '\n')
+                print("crawled: " + str(len(visited)) + "    |   "+ "Queue: " + str(len(queue)) + '\n')
 
             else:
-                print("Already crawled: " + s1 + '\n')
+                print("Already crawled: " + s1)
+                print("crawled: " + str(len(visited)) + "    |   " + "Queue: " + str(len(queue)) + '\n')
+                del queue[0]
                 browser.quit()
                 pass
 
         except:
+            del queue[0]
             browser.quit()  # if the links are not found in a page, close the browser while passing
             pass
 
