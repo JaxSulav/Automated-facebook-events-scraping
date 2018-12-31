@@ -162,7 +162,10 @@ with open('events_JAN.csv', 'w', newline='') as e:    # open csv in write mode
                 pass
 
         except:
-            del queue[0]
+            try:
+                del queue[0]
+            except:
+                pass
             browser.quit()  # if the links are not found in a page, close the browser while passing
             pass
 
