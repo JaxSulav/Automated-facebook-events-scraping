@@ -29,7 +29,7 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
     csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
 
     for i in range(10000):
-        #options.add_argument('-headless')
+        options.add_argument('-headless')
         browser = webdriver.Firefox(executable_path=geckodriver, options=options)
         try:
 
