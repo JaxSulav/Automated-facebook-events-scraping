@@ -133,7 +133,7 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
                 visited.append(s1)
 
                 browser.quit()
-                del queue[0]
+                del queue[0]    # remove 1st element from queue
                 print("...Done")
                 print("crawled: " + str(len(visited)) + "    |   "+ "Queue: " + str(len(queue)) + '\n')
 
