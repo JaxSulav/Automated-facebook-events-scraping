@@ -18,14 +18,14 @@ visited = []  # listing crawled list
 jan = []
 queue.append(base_url)
 
-# creating Images_collected directory if not already created and remove and create dir if already there
-if os.path.exists('Images_collected'):
-    shutil.rmtree('./Images_collected')
-    os.makedirs('Images_collected')
+# creating Images_collected_JAN directory if not already created and remove and create dir if already there
+if os.path.exists('Images_collected_JAN'):
+    shutil.rmtree('./Images_collected_JAN')
+    os.makedirs('Images_collected_JAN')
 else:
-    os.makedirs('Images_collected')
+    os.makedirs('Images_collected_JAN')
 
-with open('events.csv', 'w', newline='') as e:    # open csv in write mode
+with open('events_JAN.csv', 'w', newline='') as e:    # open csv in write mode
     csv_writer = csv.writer(e)
     csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
 
@@ -123,7 +123,7 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
 
                         img = image['src']
 
-                        create_img = open(os.path.join('Images_collected', e_name + ".jpeg"), 'wb')
+                        create_img = open(os.path.join('Images_collected_JAN', e_name + ".jpeg"), 'wb')
                         create_img.write(urllib.request.urlopen(img).read())
                         create_img.close()
 
@@ -138,12 +138,12 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
                             [e_month + " " + e_date + ", " + e_year, e_weekday, e_name, e_host, e_location, e_time, e_people])
 
                         jan.append(s1)
-                        print("(JAN, 2019|inside valley) written in csv: --------- " + str(len(jan)) + '\n')
+                        print("(JAN, 2019|inside valley) written in csv: --------- " + str(len(jan)))
                     else:
-                        print("not in JAN, 2019" + '\n')
+                        print("not in JAN, 2019")
                         pass
                 else:
-                    print("not in Valley" + '\n')
+                    print("not in Valley")
                     pass
 
 
@@ -172,10 +172,10 @@ with open('events.csv', 'w', newline='') as e:    # open csv in write mode
             pass'''
 
 links = set(jan)
-f = open("crawled_urls", "w+")
+f = open("crawled_urls_JAN", "w+")
 for link in sorted(links):
     f.write(link + '\n')
 
-print("Congratulations!! "+str(len(jan))+" events stored in events.csv file in your script's directory")
-print("Also!! check the scraped urls in crawled_urls.txt file in your script's directory")
+print("Congratulations!! "+str(len(jan))+" events stored in events_JAN.csv file in your script's directory")
+print("Also!! check the scraped urls in crawled_urls_JAN.txt file in your script's directory")
 print("Images can be found in local directory :)")
