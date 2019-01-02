@@ -12,7 +12,7 @@ def anyEvent():
         csv_writer = csv.writer(e)
         csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
 
-        for i in range(10000):
+        for i in range(5000):
             options.add_argument('-headless')
             browser = webdriver.Firefox(executable_path=geckodriver, options=options)
             try:
@@ -145,7 +145,7 @@ def janEvent():
         csv_writer = csv.writer(e)
         csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
 
-        for i in range(10000):
+        for i in range(5000):
             options.add_argument('-headless')
             browser = webdriver.Firefox(executable_path=geckodriver, options=options)
             try:
