@@ -11,7 +11,7 @@ from selenium.webdriver.firefox.options import Options
 from datetime import date
 import pandas as pd
 
-a = date(2019, 1, 3)
+a = date(2019, 1, 1)
 b = date(2019, 1, 30)
 daterange = pd.date_range(a, b)
 
