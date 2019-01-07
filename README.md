@@ -8,5 +8,5 @@ Instructions:--
 -- run "eventScrape.py jan" to extract events in JAN, 2019 inside Kathmandu Valley.
 
 -- Download the latest gecko driver from https://github.com/mozilla/geckodriver/releases
--- For Windows: Set your path variable to geckodriver.exe folder 
+-- For Windows: Set your path variable to geckodriver.exe folder similarly as https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/
 -- For linux: copy geckodriver to usr/bin/geckodriver
