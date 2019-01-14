@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from datetime import date
 import pandas as pd
+from multiprocessing import Pool
 
 a = date(2019, 1, 1)
 b = date(2019, 1, 30)
@@ -148,7 +149,7 @@ def anyEvent():
 
     return
 
-def janEvent():
+def janLinks_gather():
 
     print("Working in background..........................")
     for single_date in daterange:
@@ -159,7 +160,7 @@ def janEvent():
             date) + '%5C%22%7D%22%2C%22timezone%22%3A%22Asia%2FKathmandu%22%7D&acontext=%7B%22ref%22%3A110%2C%22ref_dashboard_filter%22%3A%22upcoming%22%2C%22source%22%3A2%2C%22source_dashboard_filter%22%3A%22discovery%22%2C%22action_history%22%3A%22[%7B%5C%22surface%5C%22%3A%5C%22dashboard%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22main_list%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22upcoming%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D]%22%2C%22has_source%22%3Atrue%7D'
         options = Options()
         options.set_preference("dom.webnotifications.enabled", False)
-        options.add_argument('-headless')
+        #options.add_argument('-headless')
         browser = webdriver.Firefox(options=options)
         browser.get(link)
         browser.find_element_by_id("email").send_keys('wabalabadubdub18@gmail.com')
@@ -214,113 +215,94 @@ def janEvent():
         fetch()
 
         browser.quit()
+    return
 
-    print("initiating Scraping..........................................................")
+def janCrawl(s1):
 
-    with open('events_JAN.csv', 'w', newline='') as e:  # open csv in write mode
-        csv_writer = csv.writer(e)
-        csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
-        j = 1
-        while queue:
-            options.add_argument('-headless')
-            browser = webdriver.Firefox(executable_path=geckodriver, options=options)
+    with open('events_JAN.csv', 'a', newline='') as f:
+        csv_writer1 = csv.writer(f)
+        #options.add_argument('-headless')
+        browser = webdriver.Firefox(executable_path=geckodriver, options=options)
+        try:
+            #print("loop no: " + str(j))
+            #j = j + 1
+
+            print("crawling on: " + s1)
+
+            # using selenium
+            browser.get(s1)
+
+            e_y = browser.find_element_by_xpath('//*[@id="title_subtitle"]/span')
+            e_year = e_y.get_attribute('aria-label')[-4:]
+            year = int(e_year)
+
             try:
-                s1 = queue[0]
-                print("loop no: " + str(j))
-                j = j + 1
-
-                if s1 not in visited:  # if current link is not already visited
-                    print("crawling on: " + s1)
-
-                    # using selenium
-                    browser.get(s1)
-
-                    e_y = browser.find_element_by_xpath('//*[@id="title_subtitle"]/span')
-                    e_year = e_y.get_attribute('aria-label')[-4:]
-                    year = int(e_year)
-
-                    try:
-                        e_location = browser.find_element_by_xpath(
-                            '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div[3]/div/div/div[2]/div/ul/li[2]/div[1]/table/tbody/tr/td[2]/div/div[1]/div/div[2]/div').text
-                    except:
-                        print('n/a')
-
-                    # using beautifulsoup and requests
-
-                    r = urllib.request.urlopen(s1).read()
-
-                    soup = BeautifulSoup(r, 'lxml')
-
-                    e_month = soup.find('span', attrs={'class': '_5a4-'}).text
-
-                    if year == 2019 and e_month == 'JAN':
-                        dum_list = e_y.get_attribute('aria-label')
-                        e_weekday = e_y.get_attribute('aria-label')[0:dum_list.index(',')]
-
-                        e_time = browser.find_element_by_class_name('_2ycp').text
-                        try:
-                            e_people = browser.find_element_by_class_name('_5z74').text
-                        except:
-                            e_people = "n/a"
-
-                        e_name = soup.find('h1', {'id': 'seo_h1_tag'}).text
-
-                        e_date = soup.find('span', attrs={'class': '_5a4z'}).text
-
-                        try:
-                            e_host_sel = browser.find_element_by_xpath(
-                                '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div[3]/div/div/div[1]/div[2]/div[1]/div/div/div/div/div')
-                            e_host = e_host_sel.get_attribute('content')
-                        except:
-                            e_host_sel = soup.find_all('a', attrs={'href': re.compile("^https://")})
-                            e_host = e_host_sel[2].text
-
-                        csv_writer.writerow(
-                            [e_month + " " + e_date + ", " + e_year, e_weekday, e_name, e_host, e_location, e_time,
-                             e_people])
-
-                        jan.append(s1)
-                        print("(JAN, 2019|inside valley) written in csv: --------- " + str(len(jan)))
-
-                        try:
-                            if soup.find('img', attrs={'class': 'scaledImageFitWidth'}):
-                                image = soup.find('img', attrs={'class': 'scaledImageFitWidth'})
-                            else:
-                                image = soup.find('img', attrs={'class': 'scaledImageFitHeight'})
-
-                            img = image['src']
-
-                            create_img = open(os.path.join('Images_collected_JAN', e_name + ".jpeg"), 'wb')
-                            create_img.write(urllib.request.urlopen(img).read())
-                            create_img.close()
-                        except:
-                            pass
-
-                    else:
-                        print("not in JAN, 2019")
-                        pass
-
-                    visited.append(s1)
-
-                    browser.quit()
-                    del queue[0]  # remove 1st element of queue
-                    print("...Done")
-                    print("crawled: " + str(len(visited)) + "    |   " + "Queue: " + str(len(queue)) + '\n')
-
-                else:
-                    print("Already crawled: " + s1)
-                    print("crawled: " + str(len(visited)) + "    |   " + "Queue: " + str(len(queue)) + '\n')
-                    del queue[0]
-                    browser.quit()
-                    pass
-
+                e_location = browser.find_element_by_xpath(
+                    '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div[3]/div/div/div[2]/div/ul/li[2]/div[1]/table/tbody/tr/td[2]/div/div[1]/div/div[2]/div').text
             except:
+                print('n/a')
+
+            # using beautifulsoup and requests
+
+            r = urllib.request.urlopen(s1).read()
+
+            soup = BeautifulSoup(r, 'lxml')
+
+            e_month = soup.find('span', attrs={'class': '_5a4-'}).text
+
+            if year == 2019 and e_month == 'JAN':
+                dum_list = e_y.get_attribute('aria-label')
+                e_weekday = e_y.get_attribute('aria-label')[0:dum_list.index(',')]
+
+                e_time = browser.find_element_by_class_name('_2ycp').text
                 try:
-                    del queue[0]
+                    e_people = browser.find_element_by_class_name('_5z74').text
+                except:
+                    e_people = "n/a"
+
+                e_name = soup.find('h1', {'id': 'seo_h1_tag'}).text
+
+                e_date = soup.find('span', attrs={'class': '_5a4z'}).text
+
+                try:
+                    e_host_sel = browser.find_element_by_xpath(
+                        '/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div[3]/div/div/div[1]/div[2]/div[1]/div/div/div/div/div')
+                    e_host = e_host_sel.get_attribute('content')
+                except:
+                    e_host_sel = soup.find_all('a', attrs={'href': re.compile("^https://")})
+                    e_host = e_host_sel[2].text
+
+                csv_writer1.writerow(
+                    [e_month + " " + e_date + ", " + e_year, e_weekday, e_name, e_host, e_location, e_time,
+                     e_people])
+
+
+                print("(JAN, 2019|inside valley) writting in CSV....")
+
+                try:
+                    if soup.find('img', attrs={'class': 'scaledImageFitWidth'}):
+                        image = soup.find('img', attrs={'class': 'scaledImageFitWidth'})
+                    else:
+                        image = soup.find('img', attrs={'class': 'scaledImageFitHeight'})
+
+                    img = image['src']
+
+                    create_img = open(os.path.join('Images_collected_JAN', e_name + ".jpeg"), 'wb')
+                    create_img.write(urllib.request.urlopen(img).read())
+                    create_img.close()
                 except:
                     pass
-                browser.quit()  # if the links are not found in a page, close the browser while passing
+
+            else:
+                print("not in JAN, 2019")
                 pass
+
+            browser.quit()
+            print("...Done")
+
+        except:
+            browser.quit()  # if the links are not found in a page, close the browser while passing
+            pass
 
     return
 
@@ -352,8 +334,6 @@ else:
     print("Forgot the args??!!")
 
 queue = []   # queuing links
-visited = []
-jan = []# listing crawled list
 
 if args.inp == 'any':
     base_url = input("Paste base url to start with:")
@@ -370,14 +350,22 @@ if args.inp == 'any':
 
 elif args.inp == 'jan':
 
-    janEvent()
-    links = set(jan)
-    f = open("crawled_urls_JAN", "w+")
-    for link in sorted(links):
-        f.write(link + '\n')
+    janLinks_gather()
+    queueSet = set(queue)
+    print("Number of links in set: " + str(len(queueSet)))
 
-    print("Congratulations!! " + str(len(jan)) + " events stored in events_JAN.csv file in your script's directory")
-    print("Also!! check the scraped urls in crawled_urls_JAN.txt file in your script's directory")
+    with open('events_JAN.csv', 'w', newline='') as e:
+        csv_writer = csv.writer(e)
+        csv_writer.writerow(['Date', 'Event Name', 'Host', 'Time', 'Interested/Going'])
+        j = 1
+        print("initiating Scraping..........................................................")
+        p = Pool(6)
+        p.map(janCrawl, queueSet)
+        #p.terminate()
+        #p.join()
+
+
+    print("Congratulations!! events stored in events_JAN.csv file in your script's directory")
     print("Images can be found in local directory :)")
 
 else:
