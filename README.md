@@ -1,5 +1,5 @@
 # Automated-facebook-events-scraping
-Automated scraping of facebook events info and images using beautifulsoup and selenium through eventScrape.py. A csv file with events info, a text file with scraped events list and a folder with images will be created as output in the script's directory
+Automated scraping of facebook events info and images using beautifulsoup and selenium through eventScrape.py. A csv file with events info and a folder with images will be created as output in the script's directory
 
 Instructions:--
 
