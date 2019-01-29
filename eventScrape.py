@@ -10,11 +10,10 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from datetime import date
 import pandas as pd
+from pandas.tseries.offsets import MonthEnd
 from multiprocessing import Pool
 
-a = date(2019, 1, 1)
-b = date(2019, 1, 30)
-daterange = pd.date_range(a, b)
+
 
 def anyEvent():
     with open('events.csv', 'w', newline='') as e:  # open csv in write mode
@@ -160,7 +159,7 @@ def janLinks_gather():
             date) + '%5C%22%7D%22%2C%22timezone%22%3A%22Asia%2FKathmandu%22%7D&acontext=%7B%22ref%22%3A110%2C%22ref_dashboard_filter%22%3A%22upcoming%22%2C%22source%22%3A2%2C%22source_dashboard_filter%22%3A%22discovery%22%2C%22action_history%22%3A%22[%7B%5C%22surface%5C%22%3A%5C%22dashboard%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22main_list%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22upcoming%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D]%22%2C%22has_source%22%3Atrue%7D'
         options = Options()
         options.set_preference("dom.webnotifications.enabled", False)
-        options.add_argument('-headless')
+        #options.add_argument('-headless')
         browser = webdriver.Firefox(options=options)
         browser.get(link)
         browser.find_element_by_id("email").send_keys('wabalabadubdub18@gmail.com')
@@ -196,7 +195,7 @@ def janLinks_gather():
                     i = i + 1
                     print("Fetching event: " + page.text)
                     queue.append(link)
-                    print("queue lenghth: " + str(len(queue)))
+                    print("queue length: " + str(len(queue)))
                 except:
                     break
             return
@@ -213,7 +212,6 @@ def janLinks_gather():
         a = browser.find_element_by_xpath("//*[text()='Lalitpur, Nepal']")
         a.click()
         fetch()
-
         browser.quit()
     return
 
@@ -309,8 +307,19 @@ def janCrawl(s1):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("inp")
+    parser.add_argument("--year")
+    parser.add_argument("--month")
 args = parser.parse_args()
 
+y = int(args.year)
+m = int(args.month)
+
+a = date(y, m, 28)
+b = a + MonthEnd(0)
+print(b)
+daterange = pd.date_range(a, b)
+
+os.system('chmod +x ./geckodriver')
 geckodriver = './geckodriver'  # firefox driver
 options = webdriver.FirefoxOptions()
 
@@ -334,6 +343,7 @@ else:
     print("Forgot the args??!!")
 
 queue = []   # queuing links
+visited = []
 
 if args.inp == 'any':
     base_url = input("Paste base url to start with:")
