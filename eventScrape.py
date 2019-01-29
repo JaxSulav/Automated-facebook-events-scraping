@@ -311,7 +311,7 @@ if __name__ == "__main__":
     parser.add_argument("inp")
 args = parser.parse_args()
 
-geckodriver = '/usr/bin/geckodriver'  # firefox driver
+geckodriver = './geckodriver'  # firefox driver
 options = webdriver.FirefoxOptions()
 
 if args.inp == 'any':
