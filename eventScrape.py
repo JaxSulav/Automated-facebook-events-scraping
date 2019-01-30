@@ -213,7 +213,7 @@ print("Number of links in set: " + str(len(queueSet)))
 
 with open('events.csv', 'w', newline='') as e:
     csv_writer = csv.writer(e)
-    csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Time', 'Interested/Going'])
+    csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
     j = 1
     print("initiating Scraping..........................................................")
     p = Pool(6)
