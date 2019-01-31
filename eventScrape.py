@@ -191,9 +191,8 @@ args = parser.parse_args()
 y = int(args.year)
 m = int(args.month)
 
-a = date(y, m, 26)
-b = date(y,m, 28)
-#b = a + MonthEnd(0)
+a = date(y, m, 1)
+b = a + MonthEnd(0)
 daterange = pd.date_range(a, b)
 
 ts = str(time.time())
