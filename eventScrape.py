@@ -26,7 +26,7 @@ def links_gather():
             date) + '%5C%22%7D%22%2C%22timezone%22%3A%22Asia%2FKathmandu%22%7D&acontext=%7B%22ref%22%3A110%2C%22ref_dashboard_filter%22%3A%22upcoming%22%2C%22source%22%3A2%2C%22source_dashboard_filter%22%3A%22discovery%22%2C%22action_history%22%3A%22[%7B%5C%22surface%5C%22%3A%5C%22dashboard%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22main_list%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22upcoming%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D%2C%7B%5C%22surface%5C%22%3A%5C%22discover_filter_list%5C%22%2C%5C%22mechanism%5C%22%3A%5C%22surface%5C%22%2C%5C%22extra_data%5C%22%3A%7B%5C%22dashboard_filter%5C%22%3A%5C%22discovery%5C%22%7D%7D]%22%2C%22has_source%22%3Atrue%7D'
         options = Options()
         options.set_preference("dom.webnotifications.enabled", False)
-        options.add_argument('-headless')
+        #options.add_argument('-headless')
         browser = webdriver.Firefox(options=options)
         browser.get(link)
         browser.find_element_by_id("email").send_keys('wabalabadubdub18@gmail.com')
@@ -68,13 +68,13 @@ def links_gather():
             return
 
         # browser.implicitly_wait(10)
-        a = browser.find_element_by_xpath("//*[text()='Bhaktapur, Nepal']")
+        '''a = browser.find_element_by_xpath("//*[text()='Bhaktapur, Nepal']")
         a.click()
         fetch()
 
         a = browser.find_element_by_xpath("//*[text()='Kathmandu, Nepal']")
         a.click()
-        fetch()
+        fetch()'''
 
         a = browser.find_element_by_xpath("//*[text()='Lalitpur, Nepal']")
         a.click()
@@ -84,9 +84,9 @@ def links_gather():
 
 def crawl_links(s1):
 
-    with open('events.csv', 'a+', newline='') as f:
+    with open(csv_path, 'a+', newline='') as f:
         csv_writer1 = csv.writer(f)
-        options.add_argument('-headless')
+        #options.add_argument('-headless')
         browser = webdriver.Firefox(executable_path=geckodriver, options=options)
         try:
             print("crawling on: " + s1)
@@ -168,7 +168,7 @@ def crawl_links(s1):
 
                 img = image['src']
 
-                create_img = open(os.path.join('Images_collected', e_name + ".jpeg"), 'wb')
+                create_img = open(os.path.join(name, e_name + ".jpeg"), 'wb')
                 create_img.write(urllib.request.urlopen(img).read())
                 create_img.close()
             except Exception as exc:
@@ -191,19 +191,26 @@ args = parser.parse_args()
 y = int(args.year)
 m = int(args.month)
 
-a = date(y, m, 1)
-b = a + MonthEnd(0)
+a = date(y, m, 26)
+b = date(y,m, 28)
+#b = a + MonthEnd(0)
 daterange = pd.date_range(a, b)
+
+ts = str(time.time())
 
 os.system('chmod +x ./geckodriver')
 geckodriver = './geckodriver'  # firefox driver
 options = webdriver.FirefoxOptions()
 
-if os.path.exists('Images_collected'):
+name = 'Images_collected - ' + ts
+path = './Output/' + name
+os.makedirs(path)
+
+'''if os.path.exists('Images_collected'):
     shutil.rmtree('./Images_collected')
     os.makedirs('Images_collected')
 else:
-    os.makedirs('Images_collected')
+    os.makedirs('Images_collected') '''
 
 queue = [] #queuing links
 links_gather()
@@ -211,7 +218,9 @@ queueSet = set(queue)
 queueSetList = list(queueSet)
 print("Number of links in set: " + str(len(queueSet)))
 
-with open('events.csv', 'w', newline='') as e:
+csv_name = 'events ' + ts + '.csv'
+csv_path = './Output/' + csv_name
+with open(csv_path, 'w', newline='') as e:
     csv_writer = csv.writer(e)
     csv_writer.writerow(['Date', 'Day', 'Event Name', 'Host', 'Location', 'Time', 'Interested/Going'])
     j = 1
