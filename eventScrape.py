@@ -111,7 +111,7 @@ def crawl_links(s1):
                         e_location = browser.find_element_by_xpath('/html/body/div[1]/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div[2]/div/div/div[2]/div/ul/li[2]/a/table/tbody/tr/td[2]/div/div/div[2]/div/div').text
                     except:
                         e_location = "n/a"
-                        print("n/a.. " + s1)
+                        #print("n/a.. " + s1)
 
             # using beautifulsoup and requests
 
@@ -172,7 +172,8 @@ def crawl_links(s1):
                 create_img.write(urllib.request.urlopen(img).read())
                 create_img.close()
             except Exception as exc:
-                print(exc)
+                pass
+                #print(exc)
 
             browser.quit()
             #print(".....Done")
