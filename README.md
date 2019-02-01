@@ -12,6 +12,7 @@ Download geckodriver for firefox from https://github.com/mozilla/geckodriver/rel
 
 -- For Example: If events of january, 2019 is to be fetched, run eventScrape.py --year=2019 --month=1
 
--- By default program runs in browser's headless mode albeit, if you want to inspect in foreground mode: run with argument --visible
+-- By default program runs in browser's headless mode albeit, if you want to inspect in foreground mode:
+-- run with argument --visible
 
 
