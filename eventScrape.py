@@ -66,7 +66,7 @@ def fetch_page_links():
 
 
 def fetch_links_from_each_city():
-    """bhaktapur_button = browser.find_element_by_xpath("//*[text()='Bhaktapur, Nepal']")
+    bhaktapur_button = browser.find_element_by_xpath("//*[text()='Bhaktapur, Nepal']")
     bhaktapur_button.click()
     scroll_to_page_end()
     fetch_page_links()
@@ -74,7 +74,7 @@ def fetch_links_from_each_city():
     kathmandu_button = browser.find_element_by_xpath("//*[text()='Kathmandu, Nepal']")
     kathmandu_button.click()
     scroll_to_page_end()
-    fetch_page_links()"""
+    fetch_page_links()
 
     lalitpur_button = browser.find_element_by_xpath("//*[text()='Lalitpur, Nepal']")
     lalitpur_button.click()
@@ -298,9 +298,8 @@ args = parser.parse_args()
 provided_year = int(args.year)
 provided_month= int(args.month)
 
-start_date = date(provided_year, provided_month, 26)
-end_date = date(provided_year, provided_month, 28)
-#end_date = start_date + MonthEnd(0)
+start_date = date(provided_year, provided_month, 1)
+end_date = start_date + MonthEnd(0)
 daterange = pd.date_range(start_date, end_date)
 
 timestamp = str(time.time())
