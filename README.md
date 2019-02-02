@@ -13,7 +13,7 @@ Instructions:--
 
 -- For Example: If events of january, 2019 is to be fetched, run eventScrape.py --year=2019 --month=1
 
--- By default program runs in browser's headless mode albeit, if you want to inspect in foreground mode:
+-- By default program runs in browser's headless mode albeit, it can be inspected in foreground mode as:
 
 -- run with argument --visible
 
