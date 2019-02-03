@@ -17,4 +17,4 @@ Instructions:--
 
 -- run with argument --visible
 
-
+-- For Example: If events of january, 2019 is to be fetched, run eventScrape.py --year=2019 --month=1 --visible
