@@ -7,7 +7,7 @@ Instructions:--
 
 -- For Windows: Set your path variable to geckodriver.exe folder similarly as https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/
 
--- For Linux or Mac: copy geckodriver to the Automated-facebook-events-scraping folder
+-- For Linux or Mac: copy geckodriver to the usr/bin
 
 -- run eventScrape.py --year="YEAR VALUE" --month="MONTH VALUE" for extracting events from any month of any year
 
