@@ -293,7 +293,7 @@ if __name__ == "__main__":
 
 
 queueList = [] #queuing links
-geckodriver = './geckodriver'  # firefox driver
+geckodriver = 'usr/bin/geckodriver'  # firefox driver
 args = parser.parse_args()
 provided_year = int(args.year)
 provided_month= int(args.month)
