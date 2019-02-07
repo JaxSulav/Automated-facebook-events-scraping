@@ -279,10 +279,6 @@ def save_image():
         print(exc)
     return
 
-def configure_geckodriver():
-    os.system('chmod +x ./geckodriver')
-    return
-
 ####################################################################################################### START #########################################################################################################################
 
 if __name__ == "__main__":
@@ -309,7 +305,6 @@ image_path = './Output/' + images_folder_name
 csv_name = 'events ' + timestamp + '.csv'
 csv_path = './Output/' + csv_name
 
-configure_geckodriver()
 make_image_directory()
 links_collection()
 
